@@ -1,10 +1,7 @@
 ---
 ## Decription
-Did you see the strings? One of those is right, I can just feel it      
-
-
----
-
+> Did you see the strings? One of those is right, I can just feel it
+------
 ```
 flagsflagsflags: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, BuildID[sha1]=8bbcb5450afeba98d27154e01464d3e4888218b7, stripped
 ```
