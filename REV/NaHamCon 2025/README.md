@@ -1,7 +1,9 @@
+---
 ## Decription
 Did you see the strings? One of those is right, I can just feel it      
 
-__________________
+
+---
 
 ```
 flagsflagsflags: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, BuildID[sha1]=8bbcb5450afeba98d27154e01464d3e4888218b7, stripped
@@ -18,7 +20,7 @@ not much to do so i convert the file to .exe and decompile it in IDA
 
 ![image](https://github.com/user-attachments/assets/0bc5c64b-d673-4203-9725-476bbb0314ed)
 
-quite long but we pay attention on 2 main func and first at main_generateFlag like its name, it generateFlag but it's fakeflag and there is a bunch of them
+quite long but we pay attention on 2 main func and first at *main_generateFlag* like its name, it generateFlag but it's fakeflag and there is a bunch of them
 
 so maybe we can solve that at main_main func 
 
@@ -34,6 +36,8 @@ in pseudocode i can see flag is get the return value of main_generate function. 
 ![image](https://github.com/user-attachments/assets/c3b5abad-8eac-43a2-95b6-8578064e93d8)
 
 with 2 images above iam sure that **rdx register** contain flag :(((
+
+## Solution
 
 um i need to set breakpoint , so i have to use GDB or x64dbg ... **(with breakpoint you can stop the program at your desired location and check the actual value "correct flag"at runtime)**
 ```bash
@@ -86,7 +90,9 @@ Thread 1 "flagsflagsflags" hit Breakpoint 2, 0x00000000004942c7 in ?? ()
 (gdb) x/s $rdx
 0x519e85:       "flag{20dec9363618a397e9b2a0bf5a35b2e3}flag{84d71da4745dc317b652a33ceea58b21}flag{0513b7f4a42830a4be9e52a357302dcb}flag{ccc071739856887b278bbc9c6949951a}flag{a358342b5c331455083b43f7a5a2ac8d}flag{d6178"...
 ````
- ok it shows "hit breakpoint" that means we did it right, after that is check flag at rdx register which hold the correct flag by command **x/s $rdx** which help us can see the contents of the memory that program is about to print **flag{20dec9363618a397e9b2a0bf5a35b2e3}flag{84d71da4745dc317b652a33ceea58b21}flag{0513b7f4a42830a4be9e52a357302dcb}flag{ccc071739856887b278bbc9c6949951a}flag{a358342b5c331455083b43f7a5a2ac8d}flag{d6178**  and usually the first flag is true and it's the first flag that rdx register pointer to.  
+ ok it shows "hit breakpoint" that means we did it right, after that is check flag at rdx register which hold the correct flag by command **x/s $rdx** which help us can see the contents of the memory that program is about to print
+ **flag{20dec9363618a397e9b2a0bf5a35b2e3}flag{84d71da4745dc317b652a33ceea58b21}flag{0513b7f4a42830a4be9e52a357302dcb}flag{ccc071739856887b278bbc9c6949951a}flag{a358342b5c331455083b43f7a5a2ac8d}flag{d6178** 
+ and usually the first flag is true and it's the first flag that rdx register pointer to.  
 
  ### Note:
  Some strings like "correct flag and in..." usually not statically available in the file but is dynamically created in memory (heap or stack) during the program's execution
